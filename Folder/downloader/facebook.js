@@ -9,6 +9,8 @@
 
 import axios from "axios"
 
+const quality = "sd"
+
 async function fbVideo(url) {
   const api = "https://serverless-tooly-gateway-6n4h522y.ue.gateway.dev/facebook/video"
 
@@ -16,39 +18,31 @@ async function fbVideo(url) {
     params: { url },
     headers: {
       accept: "*/*",
-      "accept-language": "id-ID",
       referer: "https://chative.io/",
       "user-agent": "CT Android/2.0"
     }
   })
 
-  if (!data.success) throw "Gagal ambil data"
+  if (!data.success) throw "Gagal ambil video"
 
-  return {
-    title: data.title,
-    hd: data.videos?.hd?.url || null,
-    hdSize: data.videos?.hd?.size || null,
-    sd: data.videos?.sd?.url || null,
-    sdSize: data.videos?.sd?.size || null
-  }
+  return data.videos?.[quality]
 }
 
 let handler = async (m, { text, conn }) => {
-  if (!text) throw "Masukin link Facebook nya"
+  if (!text) throw "Masukin link nya"
 
-  let res = await fbVideo(text)
+  let video = await fbVideo(text)
 
-  let url = res.hd || res.sd
-  if (!url) throw "Video tidak ditemukan"
+  if (!video) throw "Video tidak ditemukan"
 
   await conn.sendMessage(m.chat, {
-    video: { url },
-    caption: `📹 *${res.title}*\n\nHD: ${res.hdSize || "-"}\nSD: ${res.sdSize || "-"}`
+    video: { url: video.url },
+    caption: `Size: ${video.size}\nQuality: ${quality}`
   }, { quoted: m })
 }
 
-handler.help = ["facebook"];
-handler.tags = ["downloader"];
-handler.command = /^(fb|facebook)$/i;
+handler.help = ["facebook"]
+handler.tags = ["downloader"]
+handler.command = /^(fb|facebook)$/i
 
 export default handler
