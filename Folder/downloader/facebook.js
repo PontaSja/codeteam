@@ -47,8 +47,8 @@ let handler = async (m, { text, conn }) => {
   }, { quoted: m })
 }
 
-handler.help = ["facebook"]
-handler.tags = ["downloader"]
+handler.help = ["facebook"];
+handler.tags = ["downloader"];
 handler.command = /^(fb|facebook)$/i;
 
 export default handler
