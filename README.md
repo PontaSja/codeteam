@@ -41,7 +41,7 @@ Beberapa code yang tersedia:
 ---
 
 ## 🌍 Website
-> `https://www.codeteam.web.id` 
+> `https://my.codeteam.web.id` 
 
 ---
 
