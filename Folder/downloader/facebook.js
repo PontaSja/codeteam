@@ -49,6 +49,6 @@ let handler = async (m, { text, conn }) => {
 
 handler.help = ["facebook"]
 handler.tags = ["downloader"]
-/^(fb|facebook)$/i;
+handler.command = /^(fb|facebook)$/i;
 
 export default handler
